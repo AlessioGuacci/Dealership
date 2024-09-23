@@ -33,4 +33,8 @@ public class Vehicle {
 
     @OneToMany(mappedBy = "vehicle")
     private Rent rent;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouseID")
+    private Warehouse warehouse;
 }
