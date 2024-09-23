@@ -28,4 +28,10 @@ public class Warehouse {
     @OneToMany(mappedBy = "warehouse")
     private List<Vehicle>warehouseVehicles;
 
+    @OneToMany(mappedBy = "warehouse")
+    private List<Sale>sales;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<Rent>rents;
+
 }

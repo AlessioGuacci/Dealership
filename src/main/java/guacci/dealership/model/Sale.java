@@ -19,6 +19,10 @@ public class Sale {
     private Vehicle vehicle;
 
     @ManyToOne
+    @JoinColumn(name = "warehouse")
+    private Warehouse warehouse;
+
+    @ManyToOne
     @JoinColumn(name = "seller_id")
     private User seller;
 

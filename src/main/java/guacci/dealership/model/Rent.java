@@ -18,6 +18,10 @@ public class Rent {
     private Vehicle vehicle;
 
     @ManyToOne
+    @JoinColumn(name = "warehouse")
+    private Warehouse warehouse;
+
+    @ManyToOne
     @JoinColumn(name = "vendor_id")
     private User vendor;
 
