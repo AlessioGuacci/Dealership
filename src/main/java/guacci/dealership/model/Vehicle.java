@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -33,10 +35,10 @@ public class Vehicle {
     private boolean isAvailable;
 
     @OneToMany(mappedBy = "vehicle")
-    private Sale sale;
+    private List<Sale>sales;
 
     @OneToMany(mappedBy = "vehicle")
-    private Rent rent;
+    private List<Rent>rents;
 
     @ManyToOne
     @JoinColumn(name = "warehouseID")
