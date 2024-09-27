@@ -45,7 +45,25 @@ public class VehicleService {
        return convertEntityToDTO(vehicle);
     }
 
-    public Vehicle createVehicle(Vehicle vehicle){
+    public Vehicle createVehicle(VehicleDTO vehicleDTO){
+       Vehicle vehicle= convertDTOToEntity(vehicleDTO);
        return vehicleRepository.save(vehicle);
+    }
+
+    public VehicleDTO updateVehicle (Long id, VehicleDTO vehicleDTO){
+       Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(()->
+               new RuntimeException("Vehicle selected does not exist"));
+       vehicle.setYear(vehicleDTO.getYear());
+       vehicle.setBrand(vehicleDTO.getBrand());
+       vehicle.setModel(vehicleDTO.getModel());
+       vehicle.setPrice(vehicleDTO.getPrice());
+       vehicle.setAvailable(vehicleDTO.isAvailable());
+       return convertEntityToDTO(vehicleRepository.save(vehicle));
+    }
+
+    public void deleteVehicle(Long id){
+       Vehicle vehicle = vehicleRepository.findById(id).
+               orElseThrow(()-> new RuntimeException("Vehicle does not exist"));
+       vehicleRepository.delete(vehicle);
     }
 }
