@@ -16,7 +16,8 @@ public class WarehouseService {
     private WarehouseRepository warehouseRepository;
 
     public Warehouse createWarehouse(){
-        return new Warehouse();
+        Warehouse warehouse = new Warehouse();
+        return warehouseRepository.save(warehouse);
     }
 
     public List<VehicleDTO> getAllWarehouseInventory(Long id){
