@@ -50,4 +50,8 @@ public class WarehouseService {
         warehouse.getWarehouseVehicles().add(vehicle);
         warehouseRepository.save(warehouse);
     }
+
+    public void deleteWarehouse(long id){
+        warehouseRepository.deleteById(id);
+    }
 }
