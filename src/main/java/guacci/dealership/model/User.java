@@ -1,5 +1,6 @@
 package guacci.dealership.model;
 
+import guacci.dealership.model.enums.RoleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -36,13 +37,13 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Roles> roles = new HashSet<>();
+    private RoleType role;
 
     @OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
     private Set<Sale> sales;
