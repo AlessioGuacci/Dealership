@@ -29,7 +29,10 @@ public class Vehicle {
     private int year;
 
     @Column(nullable = false)
-    private double price;
+    private double basePrice;
+
+    @Column(nullable = false)
+    private double baseRent;
 
     @Column(nullable = false)
     private boolean isAvailable;

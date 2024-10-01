@@ -20,14 +20,17 @@ public class RentService {
     @Autowired
     private UserRepository userRepository;
 
-//    public Rent createARental(Long customerID, Long vehicleID, Long employeeID,
-//                              Date startDate, Date endDate){
-//        Vehicle vehicle= vehicleRepository.findById(vehicleID).
-//                orElseThrow(()->new RuntimeException("Vehicle does not exist"));
-//
-//        if(!vehicle.isAvailable()){
-//            throw new RuntimeException("Vehicle is not available at the moment");
-//        }
-//        User custumer=UserRepository.
-//    }
+    public Rent createARental(Long customerID, Long vehicleID, Long employeeID,
+                              Date startDate, Date endDate){
+        Vehicle vehicle= vehicleRepository.findById(vehicleID).
+                orElseThrow(()->new RuntimeException("Vehicle does not exist"));
+
+        if(!vehicle.isAvailable()){
+            throw new RuntimeException("Vehicle is not available at the moment");
+        }
+        User employee = userRepository.findById(employeeID).orElseThrow(()
+                ->new RuntimeException("Employee not found"));
+
+        User customer
+    }
 }

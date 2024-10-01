@@ -18,7 +18,8 @@ public class VehicleService {
        Vehicle vehicle = new Vehicle();
        vehicle.setBrand(vehicleDTO.getBrand());
        vehicle.setModel(vehicleDTO.getModel());
-       vehicle.setPrice(vehicleDTO.getPrice());
+       vehicle.setBasePrice(vehicleDTO.getBasePrice());
+       vehicle.setBaseRent(vehicleDTO.getBaseRent());
        vehicle.setYear(vehicleDTO.getYear());
        vehicleDTO.setAvailable(vehicleDTO.isAvailable());
        return vehicle;
@@ -29,7 +30,8 @@ public class VehicleService {
                vehicle.getBrand(),
                vehicle.getModel(),
                vehicle.getYear(),
-               vehicle.getPrice(),
+               vehicle.getBasePrice(),
+               vehicle.getBaseRent(),
                vehicle.isAvailable());
    }
 
@@ -56,7 +58,8 @@ public class VehicleService {
        vehicle.setYear(vehicleDTO.getYear());
        vehicle.setBrand(vehicleDTO.getBrand());
        vehicle.setModel(vehicleDTO.getModel());
-       vehicle.setPrice(vehicleDTO.getPrice());
+       vehicle.setBasePrice(vehicleDTO.getBasePrice());
+       vehicle.setBaseRent(vehicleDTO.getBaseRent());
        vehicle.setAvailable(vehicleDTO.isAvailable());
        return convertEntityToDTO(vehicleRepository.save(vehicle));
     }

@@ -27,7 +27,8 @@ public class WarehouseService {
                         vehicle.getBrand(),
                         vehicle.getModel(),
                         vehicle.getYear(),
-                        vehicle.getPrice(),
+                        vehicle.getBasePrice(),
+                        vehicle.getBaseRent(),
                         vehicle.isAvailable()
                 )).collect(Collectors.toList());
         return vehicleDTOS;

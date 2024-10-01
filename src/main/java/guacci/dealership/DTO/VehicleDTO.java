@@ -12,7 +12,9 @@ public class VehicleDTO {
 
     private int year;
 
-    private double price;
+    private double basePrice;
+
+    private double baseRent;
 
     private boolean isAvailable;
 
