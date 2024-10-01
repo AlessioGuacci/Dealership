@@ -32,8 +32,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User selectUser(User user){
-        return userRepository.findById(user.getId()).orElseThrow(()->
+    public User selectUser(Long id){
+        return userRepository.findById(id).orElseThrow(()->
                 new RuntimeException("User does not exist"));
     }
 
