@@ -67,9 +67,9 @@ public class RentService {
                 new RuntimeException("Rental does not exist"));
     }
 
-    public Rent updateRental(Rent rental){
-        Rent rent=new Rent();
-        rent.setId(rental.getId());
+    public Rent updateRental(Long rentID,Rent rental){
+        Rent rent= rentRepository.findById(rentID).orElseThrow(()->
+                new RuntimeException("Rental does not exist"));
         rent.setRentPrice(rental.getRentPrice());
         rent.setVendor(rental.getVendor());
         rent.setVehicle(rental.getVehicle());
