@@ -37,12 +37,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+   @Enumerated(EnumType.STRING)
     private RoleType role;
 
     @OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)

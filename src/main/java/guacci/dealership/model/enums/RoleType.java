@@ -2,6 +2,6 @@ package guacci.dealership.model.enums;
 
 public enum RoleType {
     Admin,
-    Seller,
+    Employee,
     Customer;
 }
