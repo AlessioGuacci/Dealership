@@ -10,6 +10,7 @@ import guacci.dealership.repository.VehicleRepository;
 import guacci.dealership.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,7 @@ public class SaleService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public Sale createSale(Long customerID, Long employeeID, Long vehicleID, Long warehouseID){
         Vehicle vehicle = vehicleRepository.findById(vehicleID).orElseThrow(()->
                 new RuntimeException("Vehicle does not exist"));
