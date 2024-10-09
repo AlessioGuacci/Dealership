@@ -5,6 +5,7 @@ import guacci.dealership.config.PasswordConfig;
 import guacci.dealership.model.User;
 import guacci.dealership.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +39,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public User selectUser(Long id){
         return userRepository.findById(id).orElseThrow(()->
                 new RuntimeException("User does not exist"));
@@ -60,6 +62,7 @@ public class UserService {
         return userRepository.save(userToUpdate);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(Long id){
         User user= userRepository.findById(id).orElseThrow(()->
                 new RuntimeException("User does not exist"));
