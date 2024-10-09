@@ -1,6 +1,7 @@
 package guacci.dealership.service;
 
 import guacci.dealership.DTO.UserDTO;
+import guacci.dealership.config.PasswordConfig;
 import guacci.dealership.model.User;
 import guacci.dealership.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordConfig passwordConfig;
 
     private UserDTO convertEntityIntoDTO(User user){
         return new UserDTO(
@@ -29,6 +33,8 @@ public class UserService {
     }
 
     public User createUser(User user){
+        String encodedPassword=passwordConfig.passwordEncoder().encode(user.getPassword());
+        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 
@@ -40,7 +46,6 @@ public class UserService {
     public User updateUser(User user){
         User userToUpdate= userRepository.findById(user.getId()).orElseThrow(()->
                 new RuntimeException("User does not exist"));
-        userToUpdate.setId(user.getId());
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
         userToUpdate.setEmail(user.getEmail());
@@ -48,7 +53,8 @@ public class UserService {
         userToUpdate.setRole(user.getRole());
 
         if (user.getPassword()!= null && !user.getPassword().isEmpty()){
-            userToUpdate.setPassword(user.getPassword());
+            String encodedPassword = passwordConfig.passwordEncoder().encode(user.getPassword());
+            userToUpdate.setPassword(encodedPassword);
         }
 
         return userRepository.save(userToUpdate);
