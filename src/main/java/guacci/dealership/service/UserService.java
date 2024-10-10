@@ -33,6 +33,7 @@ public class UserService {
         return user;
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public User createUser(User user){
         String encodedPassword=passwordConfig.passwordEncoder().encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -45,6 +46,7 @@ public class UserService {
                 new RuntimeException("User does not exist"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public User updateUser(User user){
         User userToUpdate= userRepository.findById(user.getId()).orElseThrow(()->
                 new RuntimeException("User does not exist"));
