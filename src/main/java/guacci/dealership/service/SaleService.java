@@ -9,6 +9,7 @@ import guacci.dealership.repository.UserRepository;
 import guacci.dealership.repository.VehicleRepository;
 import guacci.dealership.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class SaleService {
     private UserRepository userRepository;
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Sale createSale(Long customerID, Long employeeID, Long vehicleID, Long warehouseID){
         Vehicle vehicle = vehicleRepository.findById(vehicleID).orElseThrow(()->
                 new RuntimeException("Vehicle does not exist"));
@@ -52,12 +54,13 @@ public class SaleService {
         sale.setWarehouse(warehouse);
         return saleRepository.save(sale);
     }
-
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Sale selectSale(Long id){
       return saleRepository.findById(id).orElseThrow(()->
               new RuntimeException("Sale does not exist"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Sale updateSale(Long id,Sale updatedSale){
         Sale sale=saleRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Sale does not exist"));
@@ -69,6 +72,7 @@ public class SaleService {
         return saleRepository.save(sale);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteSale(Long id){
         saleRepository.deleteById(id);
     }
