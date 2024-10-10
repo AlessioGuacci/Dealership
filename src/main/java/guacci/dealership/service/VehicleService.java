@@ -4,6 +4,7 @@ import guacci.dealership.DTO.VehicleDTO;
 import guacci.dealership.model.Vehicle;
 import guacci.dealership.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,23 +36,27 @@ public class VehicleService {
                vehicle.isAvailable());
    }
 
-   public List<VehicleDTO>getAllVehicles(){
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
+    public List<VehicleDTO>getAllVehicles(){
 
        List<Vehicle>vehicleList=vehicleRepository.findAll();
        return vehicleList.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
    }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public VehicleDTO selectVehicle(Long id){
        Vehicle vehicle = vehicleRepository.findById(id).
                orElseThrow(()-> new RuntimeException("Vehicle not found"));
        return convertEntityToDTO(vehicle);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Vehicle createVehicle(VehicleDTO vehicleDTO){
        Vehicle vehicle= convertDTOToEntity(vehicleDTO);
        return vehicleRepository.save(vehicle);
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public VehicleDTO updateVehicle (Long id, VehicleDTO vehicleDTO){
        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(()->
                new RuntimeException("Vehicle selected does not exist"));
@@ -64,6 +69,7 @@ public class VehicleService {
        return convertEntityToDTO(vehicleRepository.save(vehicle));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteVehicle(Long id){
        Vehicle vehicle = vehicleRepository.findById(id).
                orElseThrow(()-> new RuntimeException("Vehicle does not exist"));

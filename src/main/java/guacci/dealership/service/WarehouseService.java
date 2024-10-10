@@ -5,6 +5,7 @@ import guacci.dealership.model.Vehicle;
 import guacci.dealership.model.Warehouse;
 import guacci.dealership.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ public class WarehouseService {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Warehouse createWarehouse(Warehouse warehouse){
         return warehouseRepository.save(warehouse);
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public List<VehicleDTO> getAllWarehouseInventory(Long id){
         Warehouse warehouse=warehouseRepository.findById(id).orElseThrow(()->new RuntimeException("Warehouse Not found"));
         List<Vehicle>vehicles=warehouse.getWarehouseVehicles();
@@ -34,6 +37,7 @@ public class WarehouseService {
         return vehicleDTOS;
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public void removeFromWarehouse (Vehicle vehicle){
         Warehouse warehouse = vehicle.getWarehouse();
         if(warehouse==null){
@@ -43,6 +47,8 @@ public class WarehouseService {
         warehouseRepository.save(warehouse);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public void addToWarehouse(Vehicle vehicle){
         Warehouse warehouse = vehicle.getWarehouse();
         if(warehouse==null){
@@ -52,6 +58,8 @@ public class WarehouseService {
         warehouseRepository.save(warehouse);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteWarehouse(long id){
         warehouseRepository.deleteById(id);
     }
