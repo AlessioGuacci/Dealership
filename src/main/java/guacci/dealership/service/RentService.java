@@ -5,6 +5,7 @@ import guacci.dealership.model.User;
 import guacci.dealership.model.Vehicle;
 import guacci.dealership.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class RentService {
     private WarehouseService warehouseService;
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Rent createARental(Long customerID, Long vehicleID, Long employeeID,
                               LocalDate startDate, LocalDate endDate){
         Vehicle vehicle= vehicleRepository.findById(vehicleID).
@@ -62,11 +64,13 @@ public class RentService {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Rent selectRental(Long id){
         return rentRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Rental does not exist"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public Rent updateRental(Long rentID,Rent rental){
         Rent rent= rentRepository.findById(rentID).orElseThrow(()->
                 new RuntimeException("Rental does not exist"));
@@ -82,10 +86,12 @@ public class RentService {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteRental(Long id){
         rentRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public void endRental(Rent rent){
         if(Objects.equals(rent.getRentalEndDate(), LocalDate.now())){
             warehouseService.addToWarehouse(rent.getVehicle());
