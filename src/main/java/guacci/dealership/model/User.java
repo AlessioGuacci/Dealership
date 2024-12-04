@@ -6,8 +6,12 @@ import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -15,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +49,9 @@ public class User {
 
     @OneToMany(mappedBy = "renter",cascade = CascadeType.ALL)
     private Set<Rent> rentals;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE: " + this.role.name()));
+    }
 }
