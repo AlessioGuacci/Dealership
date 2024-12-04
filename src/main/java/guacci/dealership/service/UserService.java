@@ -3,6 +3,7 @@ package guacci.dealership.service;
 import guacci.dealership.DTO.UserDTO;
 import guacci.dealership.config.PasswordConfig;
 import guacci.dealership.model.User;
+import guacci.dealership.model.enums.RoleType;
 import guacci.dealership.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,12 +34,33 @@ public class UserService {
         return user;
     }
 
-    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
-    public User createUser(User user){
+    private User saveUser(User user){
         String encodedPassword=passwordConfig.passwordEncoder().encode(user.getPassword());
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public User createAdmin(User user){
+        if(!user.getRole().equals(RoleType.ADMIN)){
+            throw new IllegalArgumentException("Role is invalid, Role Expected: ADMIN");
+        } return saveUser(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public User createEmployee(User user){
+        if(!user.getRole().equals(RoleType.EMPLOYEE)){
+            throw new IllegalArgumentException("Role is invalid, Role Expected: EMPLOYEE");
+        } return saveUser(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+    public User createCustomer(User user){
+        if (!user.getRole().equals(RoleType.CUSTOMER)){
+            throw new IllegalArgumentException("Role is invalid, Role Expected: CUSTOMER");
+        } return saveUser(user);
+    }
+
 
     @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")
     public User selectUser(Long id){
